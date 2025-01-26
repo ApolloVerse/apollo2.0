@@ -172,6 +172,12 @@
             font-size: 0.75rem;
             background-color: #6c757d;
         }
+        .valor-antigo {
+            color: red;
+        }
+        .valor-atual {
+            color: green;
+        }
     </style>
 </head>
 <body>
@@ -304,14 +310,29 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row g-2">
-                                        <div class="col-4">
-                                            <input type="text" class="form-control" id="esqInf" placeholder="Esq" required>
+                                        <div class="col-12">
+                                            <p><strong>Antes:</strong></p>
                                         </div>
                                         <div class="col-4">
-                                            <input type="text" class="form-control" id="meioInf" placeholder="Meio" required>
+                                            <input type="text" class="form-control" id="esqInfAntes" placeholder="Esq" required>
                                         </div>
                                         <div class="col-4">
-                                            <input type="text" class="form-control" id="dirInf" placeholder="Dir" required>
+                                            <input type="text" class="form-control" id="meioInfAntes" placeholder="Meio" required>
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="text" class="form-control" id="dirInfAntes" placeholder="Dir" required>
+                                        </div>
+                                        <div class="col-12 mt-2">
+                                            <p><strong>Depois:</strong></p>
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="text" class="form-control" id="esqInfDepois" placeholder="Esq" required>
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="text" class="form-control" id="meioInfDepois" placeholder="Meio" required>
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="text" class="form-control" id="dirInfDepois" placeholder="Dir" required>
                                         </div>
                                     </div>
                                 </div>
@@ -324,14 +345,29 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row g-2">
-                                        <div class="col-4">
-                                            <input type="text" class="form-control" id="esqSup" placeholder="Esq" required>
+                                        <div class="col-12">
+                                            <p><strong>Antes:</strong></p>
                                         </div>
                                         <div class="col-4">
-                                            <input type="text" class="form-control" id="meioSup" placeholder="Meio" required>
+                                            <input type="text" class="form-control" id="esqSupAntes" placeholder="Esq" required>
                                         </div>
                                         <div class="col-4">
-                                            <input type="text" class="form-control" id="dirSup" placeholder="Dir" required>
+                                            <input type="text" class="form-control" id="meioSupAntes" placeholder="Meio" required>
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="text" class="form-control" id="dirSupAntes" placeholder="Dir" required>
+                                        </div>
+                                        <div class="col-12 mt-2">
+                                            <p><strong>Depois:</strong></p>
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="text" class="form-control" id="esqSupDepois" placeholder="Esq" required>
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="text" class="form-control" id="meioSupDepois" placeholder="Meio" required>
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="text" class="form-control" id="dirSupDepois" placeholder="Dir" required>
                                         </div>
                                     </div>
                                 </div>
@@ -496,7 +532,7 @@
             updateHistory();
             saveToLocalStorage();
             showSuccessMessage();
-            this.reset();
+            this.reset(); // Limpa o formulário após salvar
         });
 
         function updateProductSelect() {
@@ -660,14 +696,28 @@
             const novoRegistro = {
                 data: document.getElementById('dataRegistro').value,
                 inferior: {
-                    esq: parseDecimalInput(document.getElementById('esqInf').value),
-                    meio: parseDecimalInput(document.getElementById('meioInf').value),
-                    dir: parseDecimalInput(document.getElementById('dirInf').value)
+                    antes: {
+                        esq: parseDecimalInput(document.getElementById('esqInfAntes').value),
+                        meio: parseDecimalInput(document.getElementById('meioInfAntes').value),
+                        dir: parseDecimalInput(document.getElementById('dirInfAntes').value)
+                    },
+                    depois: {
+                        esq: parseDecimalInput(document.getElementById('esqInfDepois').value),
+                        meio: parseDecimalInput(document.getElementById('meioInfDepois').value),
+                        dir: parseDecimalInput(document.getElementById('dirInfDepois').value)
+                    }
                 },
                 superior: {
-                    esq: parseDecimalInput(document.getElementById('esqSup').value),
-                    meio: parseDecimalInput(document.getElementById('meioSup').value),
-                    dir: parseDecimalInput(document.getElementById('dirSup').value)
+                    antes: {
+                        esq: parseDecimalInput(document.getElementById('esqSupAntes').value),
+                        meio: parseDecimalInput(document.getElementById('meioSupAntes').value),
+                        dir: parseDecimalInput(document.getElementById('dirSupAntes').value)
+                    },
+                    depois: {
+                        esq: parseDecimalInput(document.getElementById('esqSupDepois').value),
+                        meio: parseDecimalInput(document.getElementById('meioSupDepois').value),
+                        dir: parseDecimalInput(document.getElementById('dirSupDepois').value)
+                    }
                 },
                 comentario: document.getElementById('comentario').value
             };
@@ -680,7 +730,7 @@
             
             localStorage.setItem('historicoFacas', JSON.stringify(historicoFacas));
             atualizarHistorico();
-            limparFormulario();
+            limparFormulario(); // Limpa o formulário após salvar
         }
 
         function atualizarHistorico() {
@@ -698,13 +748,15 @@
                                 <div class="col-md-6">
                                     <div class="text-primary mb-2">
                                         <strong>Inferior:</strong><br>
-                                        E${registro.inferior.esq} | M${registro.inferior.meio} | D${registro.inferior.dir}
+                                        <span class="valor-antigo">E${registro.inferior.antes.esq} | M${registro.inferior.antes.meio} | D${registro.inferior.antes.dir}</span><br>
+                                        <span class="valor-atual">E${registro.inferior.depois.esq} | M${registro.inferior.depois.meio} | D${registro.inferior.depois.dir}</span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="text-success">
                                         <strong>Superior:</strong><br>
-                                        E${registro.superior.esq} | M${registro.superior.meio} | D${registro.superior.dir}
+                                        <span class="valor-antigo">E${registro.superior.antes.esq} | M${registro.superior.antes.meio} | D${registro.superior.antes.dir}</span><br>
+                                        <span class="valor-atual">E${registro.superior.depois.esq} | M${registro.superior.depois.meio} | D${registro.superior.depois.dir}</span>
                                     </div>
                                 </div>
                             </div>
@@ -724,7 +776,8 @@
         }
 
         function limparFormulario() {
-            document.querySelectorAll('input[type="text"]').forEach(input => input.value = '');
+            // Limpa todos os campos do formulário de faca
+            document.querySelectorAll('#faca input[type="text"]').forEach(input => input.value = '');
             document.getElementById('comentario').value = '';
             document.getElementById('dataRegistro').value = new Date().toISOString().split('T')[0];
         }
