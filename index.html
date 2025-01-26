@@ -15,24 +15,30 @@
             padding-bottom: 2rem;
             font-family: 'Arial', sans-serif;
             color: #333;
-            opacity:1.1;
+            opacity: 1.1;
         }
-        .form-container {
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 2rem;
+        .form-container, .history-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 1.5rem;
             border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            margin-bottom: 1.5rem;
         }
-        .form-container h2 {
+        .form-container h2, .history-container h3 {
             color: #007bff;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            font-size: 1.5rem;
         }
         .form-container input, .form-container select, .form-container button {
             border-radius: 10px;
             margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            font-size: 0.9rem;
         }
         .form-container button {
             margin-top: 1rem;
+            font-weight: bold;
         }
         #productDetails {
             background-color: #f8f9fa;
@@ -40,97 +46,245 @@
             border-radius: 10px;
             padding: 1rem;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            font-size: 0.9rem;
         }
         #successMessage {
             display: none;
+            font-size: 0.9rem;
         }
         #productSelect {
             margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        .delete-comment {
+            cursor: pointer;
+            color: red;
+            margin-left: 10px;
+            font-size: 0.8rem;
+        }
+        .delete-comment:hover {
+            color: darkred;
+        }
+        .btn-custom {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        .btn-custom:hover {
+            background-color: #218838;
+        }
+        .history-list {
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        .history-item {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .history-item h4 {
+            margin-top: 0;
+            color: #333;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .history-item p {
+            margin: 0.25rem 0;
+            font-size: 0.8rem;
+        }
+        .history-item small {
+            color: #666;
+            font-size: 0.75rem;
+        }
+        .history-item img {
+            width: 175px;
+            height: 175px;
+            border-radius: 10px;
+            object-fit: cover;
+            margin-left: 1rem;
+        }
+        .btn-small {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.8rem;
+            margin: 0.1rem;
+        }
+        .btn-discreet {
+            background-color: #f8f9fa;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        .btn-discreet:hover {
+            background-color: #e9ecef;
+        }
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+
+        /* Estilos personalizados para o menu */
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.9) !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-toggler {
+            border: none;
+            outline: none;
+        }
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+        .navbar-collapse {
+            transition: all 0.3s ease-in-out;
+        }
+        .navbar-nav {
+            margin-top: 10px;
+        }
+        .nav-link {
+            color: #007bff !important;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #0056b3 !important;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-10 form-container">
-                <h2 id="formulário-de-produto" class="text-center mb-4">LINO - APOLLO 2024</h2>
-                
-                <form id="productForm" class="mb-4">
-                    <div class="row g-3">
-                        <!-- Produto -->
-                        <div class="col-12 col-md-6">
-                            <input type="text" class="form-control" id="produto" placeholder="Produto" required>
-                        </div>
+    <!-- Menu Hambúrguer -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">APOLLO</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-page="home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-page="cortes">Cortes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-page="faca">Faca</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Páginas -->
+    <div class="container mt-4">
+        <!-- Página Home -->
+        <div id="home" class="page active">
+            <div class="alert alert-info text-center">
+                <h2>Esperando atualização...</h2>
+            </div>
+        </div>
+
+        <!-- Página Cortes -->
+        <div id="cortes" class="page">
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <div class="form-container">
+                        <h2 id="formulário-de-produto" class="text-center mb-4">LINO - APOLLO 2024</h2>
                         
-                        <!-- Repetição, Corte, Perímetro -->
-                        <div class="col-4 col-md-2">
-                            <input type="number" class="form-control" id="repeticao" placeholder="Repetição" required maxlength="4">
+                        <form id="productForm" class="mb-4">
+                            <div class="row g-3">
+                                <!-- Produto -->
+                                <div class="col-12">
+                                    <input type="text" class="form-control" id="produto" placeholder="Produto" required>
+                                </div>
+                                
+                                <!-- Repetição, Corte, Perímetro, Velocidade -->
+                                <div class="col-6 col-md-2">
+                                    <input type="number" class="form-control" id="repeticao" placeholder="Repetição" required maxlength="4">
+                                </div>
+                                <div class="col-6 col-md-2">
+                                    <input type="text" class="form-control" id="corte" placeholder="Corte" step="any">
+                                </div>
+                                <div class="col-6 col-md-2">
+                                    <input type="text" class="form-control" id="perimetro" placeholder="Perímetro">
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <input type="text" class="form-control" id="velocidade" placeholder="Velocidade">
+                                </div>
+                                
+                                <!-- Chagrim e Upload de Imagem na mesma linha -->
+                                <div class="col-6 col-md-3">
+                                    <select class="form-select" id="chagrim">
+                                        <option value="">Chagrim</option>
+                                        <option value="Sim">Sim</option>
+                                        <option value="Não">Não</option>
+                                    </select>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <input type="file" class="form-control" id="productImage" accept="image/*">
+                                </div>
+                                
+                                <!-- Observações -->
+                                <div class="col-12">
+                                    <input type="text" class="form-control" id="observacoes" placeholder="Observações">
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <button type="submit" class="btn btn-primary btn-custom w-100">Salvar</button>
+                            </div>
+                        </form>
+
+                        <div id="successMessage" class="alert alert-success mt-3" role="alert">
+                            Dados salvos com sucesso!
                         </div>
-                        <div class="col-4 col-md-2">
-                            <input type="text" class="form-control" id="corte" placeholder="Corte" step="any">
-                        </div>
-                        <div class="col-4 col-md-2">
-                            <input type="text" class="form-control" id="perimetro" placeholder="Perímetro">
-                        </div>
-                        
-                        <!-- Velocidade e Chagrim -->
-                        <div class="col-6 col-md-3">
-                            <input type="text" class="form-control" id="velocidade" placeholder="Velocidade">
-                        </div>
-                        <div class="col-6 col-md-3">
-                            <select class="form-select" id="chagrim">
-                                <option value="">Chagrim</option>
-                                <option value="Sim">Sim</option>
-                                <option value="Não">Não</option>
+
+                        <div class="mt-4">
+                            <h3>Histórico de Produtos</h3>
+                            <select id="productSelect" class="form-select mb-3">
+                                <option value="">Selecione um produto</option>
                             </select>
                         </div>
-                        
-                        <!-- Observações -->
-                        <div class="col-12">
-                            <input type="text" class="form-control" id="observacoes" placeholder="Observações">
-                        </div>
-                    </div>
-                    <div class="mt-3">
-                        <button type="submit" class="btn btn-primary">Salvar</button>
-                    </div>
-                </form>
 
-                <!-- Nova seção de busca por perímetro -->
-                <div class="row g-3 mt-3">
-                    <div class="col-12 col-md-6">
-                        <input type="text" class="form-control" id="buscaPerimetro" placeholder="Buscar Corte por Perímetro">
-                    </div>
-                    <div class="col-12 col-md-6" id="resultadosBusca" style="display: none;">
-                        <div class="alert alert-info" role="alert">
-                            <strong>Corte encontrado:</strong> <span id="cortEncontrado"></span>
+                        <div id="productDetails" class="mt-3" style="display: none;"></div>
+
+                        <!-- Botões de Deletar, Importar e Exportar em uma única linha -->
+                        <div class="d-flex justify-content-between mt-3">
+                            <button id="deleteProduct" class="btn btn-danger btn-small" style="display: none;">Deletar</button>
+                            <button id="exportData" class="btn btn-success btn-small btn-discreet">Exportar</button>
+                            <input type="file" id="importFile" accept=".json" style="display: none;">
+                            <button id="importData" class="btn btn-primary btn-small btn-discreet">Importar</button>
                         </div>
                     </div>
                 </div>
 
-                <div id="successMessage" class="alert alert-success mt-3" role="alert">
-                    Dados salvos com sucesso!
+                <!-- Coluna Direita: Histórico dos Últimos 10 Produtos -->
+                <div class="col-12 col-lg-6">
+                    <div class="history-container">
+                        <h3 class="text-center mb-4">Últimos 10 Produtos</h3>
+                        <div id="historyList" class="history-list">
+                            <!-- Histórico será preenchido dinamicamente aqui -->
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </div>
 
-                <div class="mt-4">
-                    <h3>Histórico de Produtos</h3>
-                    <select id="productSelect" class="form-select mb-3">
-                        <option value="">Selecione um produto</option>
-                    </select>
-                </div>
-
-                <div id="productDetails" class="mt-3" style="display: none;"></div>
-
-                <button id="deleteProduct" class="btn btn-danger mt-3" style="display: none;">Deletar Produto</button>
-
-                <!-- Campo de imagem de fundo oculto -->
-                <input type="file" id="backgroundImage" accept="image/*" style="display: none;">
-                
-                <!-- Botões de Importar e Exportar Dados -->
-                <div class="mt-4">
-                    <button id="exportData" class="btn btn-success">Exportar Dados</button>
-                    <input type="file" id="importFile" accept=".json" style="display: none;">
-                    <button id="importData" class="btn btn-primary">Importar Dados</button>
-                </div>
+        <!-- Página Faca -->
+        <div id="faca" class="page">
+            <div class="alert alert-info text-center">
+                <h2>Esperando atualização...</h2>
             </div>
         </div>
     </div>
@@ -140,7 +294,30 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
     <script>
         let products = {};
+        let history = [];
 
+        // Função para alternar entre as páginas
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        // Fechar o menu ao clicar em um link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const page = this.getAttribute('data-page');
+                showPage(page);
+
+                // Fechar o menu hambúrguer automaticamente
+                const navbarCollapse = document.querySelector('.navbar-collapse');
+                navbarCollapse.classList.remove('show'); // Remove a classe 'show' para fechar o menu
+            });
+        });
+
+        // Restante do código JavaScript (funções de carregar, salvar, etc.)
         function loadFromLocalStorage() {
             const savedProducts = localStorage.getItem('products');
             if (savedProducts) {
@@ -148,53 +325,66 @@
                 updateProductSelect();
             }
 
+            const savedHistory = localStorage.getItem('history');
+            if (savedHistory) {
+                history = JSON.parse(savedHistory);
+                updateHistory();
+            }
+
             const backgroundImage = localStorage.getItem('backgroundImage');
             if (backgroundImage) {
                 document.body.style.backgroundImage = `url(${backgroundImage})`;
             }
+
+            checkMonthlyDownload();
         }
 
         function saveToLocalStorage() {
             localStorage.setItem('products', JSON.stringify(products));
+            localStorage.setItem('history', JSON.stringify(history));
         }
 
         function parseDecimalInput(value) {
             return parseFloat(value.replace(',', '.'));
         }
 
-        // Função para buscar corte por perímetro
-        $('#buscaPerimetro').on('input', function() {
-            // Converter o valor do perímetro para decimal
-            const buscaPerimetro = parseDecimalInput($(this).val());
-            const resultadosBusca = $('#resultadosBusca');
-            const cortEncontrado = $('#cortEncontrado');
+        function checkMonthlyDownload() {
+            const lastDownload = localStorage.getItem('lastDownload');
+            const currentDate = new Date();
+            const currentMonth = currentDate.getMonth();
+            const currentYear = currentDate.getFullYear();
 
-            // Limpar resultados anteriores
-            resultadosBusca.hide();
-            cortEncontrado.text('');
+            if (lastDownload) {
+                const lastDownloadDate = new Date(lastDownload);
+                const lastDownloadMonth = lastDownloadDate.getMonth();
+                const lastDownloadYear = lastDownloadDate.getFullYear();
 
-            // Se o campo estiver vazio, não fazer nada
-            if (!buscaPerimetro) return;
-
-            // Procurar por perímetro correspondente
-            const produtoEncontrado = Object.entries(products).find(([produto, detalhes]) => 
-                Math.abs(detalhes.perimetro - buscaPerimetro) < 0.01 // Permitir pequenas diferenças de ponto flutuante
-            );
-
-            if (produtoEncontrado) {
-                const [produto, detalhes] = produtoEncontrado;
-                cortEncontrado.text(`${detalhes.corte} (Produto: ${produto})`);
-                resultadosBusca.show();
+                if (currentYear > lastDownloadYear || (currentYear === lastDownloadYear && currentMonth > lastDownloadMonth)) {
+                    showDownloadConfirmation();
+                }
+            } else {
+                showDownloadConfirmation();
             }
-        });
+        }
 
-        // Garantir formatação decimal para o campo de busca de perímetro
-        $('#buscaPerimetro').on('input', function() {
-            // Remover caracteres que não sejam números, vírgula, ponto ou hífen
-            $(this).val($(this).val().replace(/[^0-9,.-]/g, ''));
-        });
+        function showDownloadConfirmation() {
+            if (confirm('Já se passou um mês desde o último download. Deseja fazer o download dos dados agora?')) {
+                downloadData();
+            }
+        }
 
+        function downloadData() {
+            const dataStr = JSON.stringify(products, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `dados_${new Date().toLocaleDateString('pt-BR').replace(/\//g, '-')}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
 
+            localStorage.setItem('lastDownload', new Date().toISOString());
+        }
 
         $('#productForm').on('submit', function(e) {
             e.preventDefault();
@@ -206,6 +396,29 @@
             const velocidade = $('#velocidade').val();
             const perimetro = parseDecimalInput($('#perimetro').val());
             const observacoes = $('#observacoes').val();
+            const timestamp = new Date().toLocaleString();
+
+            const productData = {
+                produto,
+                repeticao,
+                chagrim,
+                corte,
+                velocidade,
+                perimetro,
+                observacoes,
+                timestamp
+            };
+
+            const existingIndex = history.findIndex(item => item.produto === produto);
+            if (existingIndex !== -1) {
+                history.splice(existingIndex, 1);
+            }
+
+            history.unshift(productData);
+
+            if (history.length > 10) {
+                history.pop();
+            }
 
             if (!products[produto]) {
                 products[produto] = {
@@ -215,6 +428,8 @@
                     velocidade: velocidade,
                     perimetro: perimetro,
                     observacoes: [observacoes],
+                    timestamp: timestamp,
+                    image: null
                 };
             } else {
                 products[produto].repeticao = repeticao;
@@ -225,9 +440,22 @@
                 if (observacoes) {
                     products[produto].observacoes.unshift(observacoes);
                 }
+                products[produto].timestamp = timestamp;
+            }
+
+            const imageFile = $('#productImage')[0].files[0];
+            if (imageFile) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    products[produto].image = event.target.result;
+                    updateHistory();
+                    saveToLocalStorage();
+                };
+                reader.readAsDataURL(imageFile);
             }
 
             updateProductSelect();
+            updateHistory();
             saveToLocalStorage();
             showSuccessMessage();
             this.reset();
@@ -237,12 +465,34 @@
             const select = $('#productSelect');
             select.html('<option value="">Selecione um produto</option>');
             
-            // Criar um array de produtos e ordená-lo alfabeticamente
             const sortedProducts = Object.keys(products).sort((a, b) => a.localeCompare(b, 'pt-BR'));
             
             for (let produto of sortedProducts) {
                 select.append(`<option value="${produto}">${produto}</option>`);
             }
+        }
+
+        function updateHistory() {
+            const historyList = $('#historyList');
+            historyList.html('');
+            history.forEach((item) => {
+                const product = products[item.produto];
+                historyList.append(`
+                    <div class="history-item">
+                        <div>
+                            <h4>${item.produto}</h4>
+                            <p><strong>Repetição:</strong> ${item.repeticao}</p>
+                            <p><strong>Chagrim:</strong> ${item.chagrim}</p>
+                            <p><strong>Corte:</strong> ${item.corte}</p>
+                            <p><strong>Velocidade:</strong> ${item.velocidade}</p>
+                            <p><strong>Perímetro:</strong> ${item.perimetro}</p>
+                            <p><strong>Observações:</strong> ${item.observacoes}</p>
+                            <p><small>Inserido em: ${item.timestamp}</small></p>
+                        </div>
+                        ${product.image ? `<img src="${product.image}" alt="Imagem do Produto">` : '<div style="width: 175px;"></div>'}
+                    </div>
+                `);
+            });
         }
 
         function showSuccessMessage() {
@@ -267,11 +517,11 @@
                     <p><strong>Perímetro:</strong> ${product.perimetro}</p>
                     <h5>Observações:</h5>
                     ${observacoesHtml}
+                    <p><small>Última atualização: ${product.timestamp}</small></p>
                 `);
                 productDetails.show();
                 deleteButton.show();
 
-                // Preencher o formulário com os dados do produto selecionado
                 $('#produto').val(this.value);
                 $('#repeticao').val(product.repeticao);
                 $('#chagrim').val(product.chagrim);
@@ -346,7 +596,6 @@
             reader.readAsDataURL(file);
         });
 
-        // Função para exportar os dados salvos localmente
         $('#exportData').on('click', function() {
             const dataStr = JSON.stringify(products, null, 2);
             const blob = new Blob([dataStr], { type: 'application/json' });
@@ -358,7 +607,6 @@
             URL.revokeObjectURL(url);
         });
 
-        // Função para importar dados de um arquivo
         $('#importData').on('click', function() {
             $('#importFile').click();
         });
