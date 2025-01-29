@@ -178,6 +178,40 @@
         .valor-atual {
             color: green;
         }
+        /* Estilo para o buscador de perímetro */
+        .search-perimetro {
+            margin-bottom: 1rem;
+        }
+        /* Estilo para o buscador de perímetro */
+        .search-perimetro .input-group {
+            display: flex; /* Alinha o input e o botão na mesma linha */
+            max-width: 167px; /* Define uma largura máxima para o grupo */
+            align-items: baseline; /* Faz o input e o botão terem a mesma altura */
+        }
+
+        .search-perimetro .form-control {
+            flex: 1; /* Faz o input ocupar o espaço restante */
+            font-size: 0.9rem; /* Tamanho da fonte igual ao botão */
+            padding: 8px 12px; /* Padding igual ao botão */
+            border-radius: 10px 0 0 10px; /* Bordas arredondadas apenas no lado esquerdo */
+            border: 1px solid #ddd; /* Borda para combinar com o estilo do botão */
+            height:50px auto; /* Altura automática para se ajustar ao botão */
+            line-height: 1.5; /* Alinha o texto verticalmente */
+        }
+
+        .search-perimetro .btn {
+            flex: 0 0 auto; /* Mantém o botão com tamanho fixo */
+            font-size: 0.9rem; /* Tamanho da fonte igual ao input */
+            padding: 8px 12px; /* Padding igual ao input */
+            border-radius: 0 10px 10px 0; /* Bordas arredondadas apenas no lado direito */
+            border: 1px solid #007bff; /* Borda para combinar com o estilo do botão */
+            height: auto; /* Altura automática para se ajustar ao input */
+            line-height: 1.5; /* Alinha o texto verticalmente */
+        }
+        #corteResult {
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
     </style>
 </head>
 <body>
@@ -263,8 +297,20 @@
                             Dados salvos com sucesso!
                         </div>
 
+                        <!-- Buscador de Corte por Perímetro -->
+                        <div class="search-perimetro">
+                            <h3>Buscar Corte por Perímetro</h3>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="searchPerimetro" placeholder="Perímetro">
+                                <button class="btn btn-primary" onclick="searchCorteByPerimetro()">Buscar</button>
+                            </div>
+                            <div id="corteResult" class="mt-2" style="display: none;">
+                                <p><strong>Corte:</strong> <span id="corteValue"></span></p>
+                            </div>
+                        </div>
+
                         <div class="mt-4">
-                            <h3>Histórico de Produtos</h3>
+                            <h3>Histórico</h3>
                             <select id="productSelect" class="form-select mb-3">
                                 <option value="">Selecione um produto</option>
                             </select>
@@ -285,7 +331,7 @@
                 <!-- Coluna Direita: Histórico dos Últimos 10 Produtos -->
                 <div class="col-12 col-lg-6">
                     <div class="history-container">
-                        <h3 class="text-center mb-4">Últimos 10 Produtos</h3>
+                        <h3 class="text-center mb-4">Últimos Produtos</h3>
                         <div id="historyList" class="history-list">
                             <!-- Histórico será preenchido dinamicamente aqui -->
                         </div>
@@ -301,7 +347,7 @@
                     <!-- Coluna Esquerda - Formulário -->
                     <div class="col-md-6">
                         <div class="form-container">
-                            <h3 class="text-center mb-4">Registro de Valores</h3>
+                            <h3 class="text-center mb-4">Registro da Faca</h3>
                             
                             <!-- Faca Inferior -->
                             <div class="card mb-3">
@@ -392,7 +438,7 @@
                     <!-- Coluna Direita - Histórico -->
                     <div class="col-md-6">
                         <div class="history-container">
-                            <h3 class="text-center mb-4">Histórico de Registros</h3>
+                            <h3 class="text-center mb-4">Histórico dos Registros de Troca da Faca</h3>
                             <div id="historico"></div>
                         </div>
                     </div>
@@ -685,6 +731,23 @@
 
             reader.readAsText(file);
         });
+
+        // Função para buscar corte por perímetro
+        function searchCorteByPerimetro() {
+            const perimetro = parseDecimalInput($('#searchPerimetro').val());
+            const corteResult = $('#corteResult');
+            const corteValue = $('#corteValue');
+
+            const foundProduct = history.find(item => item.perimetro === perimetro);
+
+            if (foundProduct) {
+                corteValue.text(foundProduct.corte);
+                corteResult.show();
+            } else {
+                alert('Nenhum corte encontrado para o perímetro informado.');
+                corteResult.hide();
+            }
+        }
 
         // Funções para a página de Faca
         function parseDecimalInput(value) {
